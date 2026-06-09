@@ -1,0 +1,29 @@
+name: Mi Flujo de Trabajo
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clonar el repositorio
+      uses: actions/checkout@v4
+
+    - name: Configurar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Instalar dependencias
+      run: |
+        if [ -f package.json ]; then
+          npm install
+        fi
+
+    - name: Mensaje de confirmacion
+      run: echo "¡La Action se ha configurado y ejecutado con exito!"
