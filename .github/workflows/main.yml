@@ -8,17 +8,17 @@ on:
 
 jobs:
   build:
-    # Usamos Windows para poder compilar el .exe correctamente
     runs-on: windows-latest
 
     steps:
     - name: Clonar el repositorio
       uses: actions/checkout@v4
 
+    # Bajamos la configuración a Node 18 para asegurar total compatibilidad con pkg
     - name: Configurar Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20'
+        node-version: '18'
 
     - name: Instalar dependencias
       run: |
@@ -29,11 +29,9 @@ jobs:
     - name: Instalar empaquetador globalmente
       run: npm install -g pkg
 
+    # Aquí cambiamos el target a node18 para que no marque el error de compatibilidad
     - name: Compilar aplicacion a .exe
-      run: |
-        # Aquí usamos 'pkg' para empaquetar tu archivo main.js. 
-        # Si usas otra herramienta en tus scripts, puedes cambiar este comando por: npm run build
-        pkg main.js --targets node20-win-x64 --output dist/MiAplicacion.exe
+      run: pkg main.js --targets node18-win-x64 --output dist/MiAplicacion.exe
 
     - name: Subir el archivo .exe como Artifact
       uses: actions/upload-artifact@v4
